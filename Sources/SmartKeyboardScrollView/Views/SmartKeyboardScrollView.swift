@@ -80,8 +80,6 @@ public struct SmartKeyboardScrollView<Content, Footer, Focus>: View where Conten
                 @ViewBuilder footer: @escaping () -> Footer = { EmptyView() }) {
         self.focusState = focusState
         self.scrollAnchor = scrollAnchor
-        print(scrollAnchor?.x)
-        print(scrollAnchor?.y)
         self.content = content
         self.footer = footer
     }
