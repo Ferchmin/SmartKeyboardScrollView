@@ -47,6 +47,7 @@ public struct SmartKeyboardScrollView<Content, Footer, Focus>: View where Conten
     @State private var lastTappedId: (any Hashable)?
 
     private let focusState: FocusState<Focus?>?
+    private let scrollAnchor: UnitPoint?
     private let content: () -> Content
     private let footer: () -> Footer
 
@@ -74,9 +75,13 @@ public struct SmartKeyboardScrollView<Content, Footer, Focus>: View where Conten
     }
 
     public init(focusState: FocusState<Focus?>? = Optional<FocusState<String?>>.none,
+                scrollAnchor: UnitPoint? = nil,
                 @ViewBuilder content: @escaping () -> Content,
                 @ViewBuilder footer: @escaping () -> Footer = { EmptyView() }) {
         self.focusState = focusState
+        self.scrollAnchor = scrollAnchor
+        print(scrollAnchor?.x)
+        print(scrollAnchor?.y)
         self.content = content
         self.footer = footer
     }
@@ -103,7 +108,7 @@ public struct SmartKeyboardScrollView<Content, Footer, Focus>: View where Conten
     private func scroll(to id: some Hashable, using proxy: ScrollViewProxy) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
             withAnimation(.easeOut(duration: 0.25)) {
-                proxy.scrollTo(id)
+                proxy.scrollTo(id, anchor: scrollAnchor)
             }
         }
     }
